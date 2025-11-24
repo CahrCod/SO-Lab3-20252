@@ -21,7 +21,13 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
+double GetTime() {
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    return t.tv_sec + t.tv_usec / 1000000.0;
+}
 
 double CalcPi(int n);
 
@@ -44,16 +50,19 @@ int main(int argc, char **argv)
     }
     
     // get initial time 
+    fTimeStart = GetTime();
 
     /* the calculation is done here*/
     fPi = CalcPi(n);
 
     //get final fime
+    fTimeEnd = GetTime();
     
     printf("\npi is approximately = %.20f \nError               = %.20f\n",
            fPi, fabs(fPi - fPi25DT));
     
     // report time
+    printf("Time elapsed: %.6f seconds\n", fTimeEnd - fTimeStart);
 
     return 0;
 }
